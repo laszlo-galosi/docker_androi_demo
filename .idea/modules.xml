@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/docker_android_demo.iml" filepath="$PROJECT_DIR$/docker_android_demo.iml" />
       <module fileurl="file://$PROJECT_DIR$/dockerexperiment.iml" filepath="$PROJECT_DIR$/dockerexperiment.iml" />
     </modules>
   </component>

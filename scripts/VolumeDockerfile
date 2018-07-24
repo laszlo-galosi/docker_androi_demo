@@ -1,6 +1,8 @@
 FROM openjdk:8
 
-ENV ANDROID_HOME /usr/local/android/sdk
+ENV ANDROID_HOME="/usr/local/android-sdk" \
+    ANDROID_VERSION=27 \
+    ANDROID_BUILD_TOOLS_VERSION=27.0.2
 
 RUN mkdir -p $ANDROID_HOME
 
@@ -9,6 +11,9 @@ VOLUME $ANDROID_HOME
 
 # Use machine cache gradle
 VOLUME /root/.gradle
+
+# Update sdk licenses.
+RUN yes | $ANDROID_HOME/tools/bin/sdkmanager --licenses
 
 RUN mkdir /application
 WORKDIR /application

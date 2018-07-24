@@ -1,28 +1,53 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.2.0'
-    ext.gradle_tool_version = '3.0.1'
-    repositories {
-        google()
-        jcenter()
-    }
-    dependencies {
-        classpath "com.android.tools.build:gradle:$gradle_tool_version"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+  ext.kotlin_version = '1.2.41'
+  ext.gradle_tool_version = '3.0.1'
+  ext.support_version = '27.0.2'
+  repositories {
+    google()
+    jcenter()
+  }
+  dependencies {
+    classpath "com.android.tools.build:gradle:$gradle_tool_version"
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
-    }
+    // NOTE: Do not place your application dependencies here; they belong
+    // in the individual module build.gradle files
+  }
 }
 
 allprojects {
-    repositories {
-        google()
-        jcenter()
-    }
+  repositories {
+    google()
+    jcenter()
+  }
 }
 
 task clean(type: Delete) {
-    delete rootProject.buildDir
+  delete rootProject.buildDir
+}
+
+task dockerPack(type: Exec) {
+  // linux
+  commandLine 'sh', './scripts/pack_sdk_docker_build.sh'
+}
+
+task dockerBuild(type: Exec) {
+  // linux
+  commandLine 'sh', './scripts/volume_docker_build.sh'
+}
+
+task dockerRunDebug(type: Exec) {
+  // linux
+  commandLine 'sh', './scripts/volume_docker_run.sh', './scripts/compile.sh', 'assembleDebug',
+      '--stacktrace', '--info'
+}
+
+task dockerStartDebug(type: Exec, dependsOn: ['dockerRunDebug', 'app:installDebug']) {
+  // linux
+  commandLine 'adb', 'shell', 'am', 'start', '-n', 'com.elyeproj.dockerexperiment/.MainActivity'
+
+  // windows
+  // commandLine 'cmd', '/c', 'adb', 'shell', 'am', 'start', '-n', 'com.example/.MyActivity'
 }

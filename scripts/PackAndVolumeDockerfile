@@ -19,10 +19,14 @@ RUN $ANDROID_HOME/tools/bin/sdkmanager "build-tools;${ANDROID_BUILD_TOOLS_VERSIO
     "platforms;android-${ANDROID_VERSION}" \
     "platform-tools"
 
-RUN mkdir /application
-WORKDIR /application
+# Use machine cache Android SDK
+VOLUME $ANDROID_HOME
+
+# Use machine cache gradle
+VOLUME /root/.gradle
 
 # Update sdk licenses.
-RUN yes | $ANDROID_HOME/tools/bin/sdkmanager --licenses
+# RUN yes | $ANDROID_HOME/tools/bin/sdkmanager --licenses
 
-
+RUN mkdir /application
+WORKDIR /application
